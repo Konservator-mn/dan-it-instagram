@@ -3,10 +3,13 @@ const   mongoose = require('mongoose'),
 
 mongoose.connect(uri, {useNewUrlParser: true});
 
-const db = mongoose.connection;
+const connection = mongoose.connection;
 
-db.on('error', console.error);
+connection.on('error', console.error);
 
-db.once('open', function() {
+connection.once('open', function() {
     console.log('Connected to database');
 });
+
+module.exports = {mongoose, connection};
+
