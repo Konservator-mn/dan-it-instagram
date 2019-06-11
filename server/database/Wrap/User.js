@@ -1,4 +1,5 @@
 const   User = require('../Schemas/User'),
+        Subscribers = require('../Schemas/Subscribers'),
         exportingObject = {};
 
 /*  1. Существует ли пользователь с таким именем
@@ -19,6 +20,13 @@ function findOne (params){
     });
 }
 
+const findById = function (ObjectId) {
+    return new Promise((resolve, reject)=>{
+        findOne({_id:ObjectId})
+            .then(resolve, reject);
+    });
+
+};
 
 const findByName = function (name) {
     return new Promise((resolve)=>{
@@ -53,6 +61,15 @@ const setPassword = function (name, password) {
         });
     });
 };
+const findManyByIds = function (ids){
+    return new Promise((resolve, reject)=>{
+       User.find({'_id': { $in: ids }}, function (err, users) {
+            if (err) reject(err);
+            resolve(users);
+        })
+    });
+};
+
 Object.defineProperties(exportingObject, {
     findByName: {
         get: ()=>findByName,
@@ -71,6 +88,16 @@ Object.defineProperties(exportingObject, {
     },
     setPassword: {
         get: ()=>setPassword,
+        configurable: false,
+        editable: false
+    },
+    findById : {
+        get: ()=>findById ,
+        configurable: false,
+        editable: false
+    },
+    findManyByIds : {
+        get: ()=>findManyByIds,
         configurable: false,
         editable: false
     }

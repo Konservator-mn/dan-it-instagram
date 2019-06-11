@@ -27,5 +27,4 @@ userSchema.methods.validPassword = function (password){
     return this.password === incomePassword;
 };
 
-
 module.exports = mongoose.model('User', userSchema);
