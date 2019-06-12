@@ -36,7 +36,7 @@ const findByName = function (name) {
 const validPassword = function (name, password){
     return new Promise((resolve)=>{
         findOne ({name: name}).then(user=>{
-           resolve(user.validPassword(password));
+            resolve((user && user.validPassword(password))?user:false);
         });
     });
 };
