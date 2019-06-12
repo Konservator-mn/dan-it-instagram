@@ -1,6 +1,6 @@
 const   User = require('../Schemas/User'),
         Subscribers = require('../Schemas/Subscribers'),
-        exportingObject = {};
+        functionExporter = require('../../libs/exporter');
 
 /*  1. Существует ли пользователь с таким именем
 **  2. Проверить пароль
@@ -70,37 +70,4 @@ const findManyByIds = function (ids){
     });
 };
 
-Object.defineProperties(exportingObject, {
-    findByName: {
-        get: ()=>findByName,
-        configurable: false,
-        editable: false
-    },
-    validPassword: {
-        get: ()=>validPassword,
-        configurable: false,
-        editable: false
-    },
-    create: {
-        get: ()=>create,
-        configurable: false,
-        editable: false
-    },
-    setPassword: {
-        get: ()=>setPassword,
-        configurable: false,
-        editable: false
-    },
-    findById : {
-        get: ()=>findById ,
-        configurable: false,
-        editable: false
-    },
-    findManyByIds : {
-        get: ()=>findManyByIds,
-        configurable: false,
-        editable: false
-    }
-});
-
-module.exports = exportingObject;
+module.exports = functionExporter(findByName, validPassword, setPassword, create, findById, findManyByIds);

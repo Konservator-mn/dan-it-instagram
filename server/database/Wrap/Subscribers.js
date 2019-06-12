@@ -1,7 +1,7 @@
 const   Subscribers = require('../Schemas/Subscribers'),
         User = require('../Schemas/User'),
         WrapedUser = require('../')('User'),
-        exportingObject = {};
+        functionExporter = require('../../libs/exporter');
 
 const findOneSubscribtion = function (subscriberObjectId, subscribeOnObjectId) {
     return new Promise((resolve, reject)=>{
@@ -65,34 +65,6 @@ const removeAllSubscriptions = function (userObjectId) {
     });
 };
 
-Object.defineProperties(exportingObject, {
-    addSubscribtion: {
-        get: ()=>addSubscribtion,
-        configurable: false,
-        editable: false
-    },
-    getAllSubscribtions: {
-        get: ()=>getAllSubscribtions,
-        configurable: false,
-        editable: false
-    },
-    removeAllSubscribers: {
-        get: ()=>removeAllSubscribers,
-        configurable: false,
-        editable: false
-    },
-    findOneSubscribtion: {
-        get: ()=>findOneSubscribtion,
-        configurable: false,
-        editable: false
-    },
-    removeAllSubscriptions: {
-        get: ()=>removeAllSubscriptions,
-        configurable: false,
-        editable: false
-    }
-});
-
-module.exports = exportingObject;
+module.exports = functionExporter(addSubscribtion, getAllSubscribtions, removeAllSubscribers, findOneSubscribtion, removeAllSubscriptions);
 
 
