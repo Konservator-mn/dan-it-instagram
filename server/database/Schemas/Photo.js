@@ -6,7 +6,17 @@ const photoSchema = new mongoose.Schema({
         unique: false,
         required: true
     },
-    photoUrl:{
+    url:{
+        type: String,
+        unique: true,
+        required: true
+    },
+    format: {
+        type: String,
+        unique: false,
+        required: true
+    },
+    public_id: {
         type: String,
         unique: true,
         required: true
