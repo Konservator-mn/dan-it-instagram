@@ -1,3 +1,3 @@
 module.exports = function (modelName) {
-    return require(`./Wrap/${modelName}`);
+    return require(`./Controller/${modelName}`);
 };

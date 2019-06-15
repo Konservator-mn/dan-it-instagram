@@ -1,6 +1,6 @@
 const   Subscribers = require('../Schemas/Subscribers'),
         User = require('../Schemas/User'),
-        WrapedUser = require('../')('User'),
+        userController = require('../')('User'),
         functionExporter = require('../../libs/exporter');
 
 const findOneSubscribtion = function (subscriberObjectId, subscribeOnObjectId) {
@@ -41,7 +41,7 @@ const getAllSubscribtions = function (userObjectId) {
     return new Promise((resolve, reject)=>{
         Subscribers.find({ subscriber: userObjectId}, function (err, subscribeList) {
            if (err) reject(err);
-            WrapedUser.findManyByIds(subscribeList.map(subscribeObj=>subscribeObj.subscribeTo)).then(users=>{
+            userController.findManyByIds(subscribeList.map(subscribeObj=>subscribeObj.subscribeTo)).then(users=>{
                 resolve(users);
            }, reject);
         });
