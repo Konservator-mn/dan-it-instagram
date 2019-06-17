@@ -47,6 +47,7 @@ const getAllSubscribtions = function (userObjectId) {
         });
     });
 };
+
 const removeAllSubscribers = function (userObjectId) {
     return new Promise((resolve, reject)=>{
         Subscribers.deleteMany({ subscribeTo: userObjectId }, function (err) {

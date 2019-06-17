@@ -17,6 +17,7 @@
     "mongoose": "^5.5.13",
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
+    "path": "^0.12.7",
     "request": "^2.88.0",
     "session-mongoose": "^0.5.2",
     "socket.io": "^2.2.0"
