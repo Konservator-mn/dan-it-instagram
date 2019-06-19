@@ -3,6 +3,7 @@ const   mongoose = require('../connect');
 const photoSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.ObjectId,
+        ref: "User",
         unique: false,
         required: true
     },

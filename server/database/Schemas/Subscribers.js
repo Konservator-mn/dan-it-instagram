@@ -4,12 +4,14 @@ const subscribersSchema = new mongoose.Schema({
     subscriber: {
         type: mongoose.Schema.ObjectId,
         unique: false,
-        required: true
+        required: true,
+        ref: "User"
     },
     subscribeTo:{
         type: mongoose.Schema.ObjectId,
         unique: false,
-        required: true
+        required: true,
+        ref: "User"
     }
 });
 

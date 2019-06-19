@@ -1,6 +1,6 @@
 const   mongoose = require('../connect');
 
-const CommentSchema = mongoose.Schema({
+const LikeSchema = mongoose.Schema({
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
@@ -10,14 +10,7 @@ const CommentSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Photo",
         required: true
-    },
-    text:{
-        type: String,
-        required: true,
-        maxlength: 2000,
-        unique: true
     }
 });
 
-
-module.exports=mongoose.model("Comment",CommentSchema);
+module.exports = mongoose.model('Like', LikeSchema);

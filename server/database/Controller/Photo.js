@@ -40,9 +40,39 @@ const upload = function (ownerObjectId, photoData){
     });
 };
 
+const removeOne = function (photoObjectID){
+    return new Promise((resolve, reject)=>{
+        Photo.findOne({_id:photoObjectID}).exec(function (err, photoInfo) {
+            if (err) reject(err);
+            photoCloud.removeOne(photoInfo).then(result=>{
+                if (result){
+                    Photo.deleteOne({_id:photoObjectID}).exec(function (err) {
+                        if (err) reject(err);
+                        resolve(true);
+                    });
+                }
+            }, reject);
+        })
+
+    });
+};
+
+const removeMany = function (usersObjectIDs) {
+    return new Promise((resolve, reject)=>{
+        Photo.find({_id: {$in: usersObjectIDs}}).exec(function(err, usersPhoto){
+            if (err) reject(err);
+            photoCloud.removeMany(usersPhoto).then(()=>{
+                Photo.deleteMany({_id: {$in: usersObjectIDs}}).exec(function(err){
+                    if (err) reject(err);
+                    resolve(true);
+                });
+            }, reject);
+        });
+    });
+};
 
 
-module.exports = functionExporter(upload, get);
+module.exports = functionExporter(upload, get, removeOne, removeMany);
 
 
 function getFromTo (query, from, to) {
