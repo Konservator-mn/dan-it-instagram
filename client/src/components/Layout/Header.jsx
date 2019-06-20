@@ -4,6 +4,8 @@ import {AppBar, Toolbar, Typography, IconButton, Switch, FormControlLabel, FormG
 import MenuIcon from '@material-ui/icons/Menu';
 import  AccountCircle from '@material-ui/icons/AccountCircle';
 
+import HeaderMenu from './HeaderMenu/HeaderMenu'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,9 +47,10 @@ export default function Header() {
       </FormGroup>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
+          <HeaderMenu/>
           <Typography variant="h6" className={classes.title}>
             KBP Instagram
           </Typography>
