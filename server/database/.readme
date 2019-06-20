@@ -1,0 +1,70 @@
+Дописать:
+User.remove(Удалить все подписки его и на него)
+
+БД имеет 5 модулей:
+1. User
+2. Photo
+3. Subscribers
+4. Like
+5. Comment
+
+Любой модуль подключается так:
+const 'имя переменной' = require('database')('имя модуля');
+Например:
+const User = require('database')('User');
+const Photo = require('../database')('Photo');
+const Subscribers = require('корень сервера/database')('Subscribers');
+
+User:
+Имя: должно быть уникальным, не меньше 6 символов
+Пароль: не меньше 6 символов
+Найти пользователя по ID
+User.findById(ид пользователя).then(пользователь=>{...})
+Найти пользователя по имени
+User.findByName(имя пользователя).then(пользователь или null=>{...})
+Проверить пароль
+User.validPassword(имя пользователя, пароль).then(пользователь или false)
+Создать нового пользователя
+User.create(имя пользователя, пароль).then(новый пользователь или reject)
+Изменить пароль у существующего пользователя
+User.setPassword(id Пользователя, пароль).then(пользователь или reject)
+Найти пользователей по списку id
+User.findManyByIds(массив id пользователей).then(массив пользователей или reject если есть неправильный id)
+
+Subscribers:
+Найти подписку
+Subscribers.findOneSubscribtion(id кто подписан, id на кого подписан).then(объект содержащий ид кто подписан и на кого подписан или false);
+Добавить подписку
+Subscribers.add(id кого подписываем, id на кого подписываем).then(объект пользователя, на которого подписались или false);
+Удалить подписку
+Subscribers.removeSubscribtion(id кто подписан, id на кого подписан).then(всегда true или reject)
+Удалить все подписки на пользователя:
+Subscribers.removeAllSubscribers(id на кого подписан).then(всегда true или reject)
+Удалить все подписки пользователя
+Subscribers.removeAllSubscriptions(id кто подписан).then(всегда true или reject)
+
+Photo:
+
+Загрузить новые фото:
+Photo.upload(id владельца фото, Stream).then({фото в base64 кодировке + id фото})
+
+Получить фото
+Photo.get(id владельца фото, лимит1, лимит2).then(base64 или массив base64)
+Если Лимит не указан то загрузятся все фото пользователя,
+Если указан 1-й лимит, то загрузятся фото с последней по лимит
+Если указаны 2 лимита, то загрузятся фото с лимит-1 до лимит2
+
+Удалить одно фото
+Photo.removeOne(id фото ).then(true или reject);
+
+Удалить все фото пользователя
+Photo.removeUsersAll(id владельца фото).then(true или reject);
+
+Comment:
+
+Добавить комментарий
+Comment.add(id автора, id фото, текст).then(Объект комментария);
+Comment.edit(id коммента, новый текст).then(Объект нового комментария);
+
+
+
