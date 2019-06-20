@@ -12,7 +12,7 @@ const findOneSubscribtion = function (subscriberObjectId, subscribeOnObjectId) {
     });
 };
 
-const addSubscribtion = function (subscriberObjectId, subscribeOnObjectId){
+const add = function (subscriberObjectId, subscribeOnObjectId){
     return new Promise((resolve, reject)=>{
         findOneSubscribtion(subscriberObjectId, subscribeOnObjectId)
             .then(subscription=>{
@@ -66,6 +66,6 @@ const removeAllSubscriptions = function (userObjectId) {
     });
 };
 
-module.exports = functionExporter(addSubscribtion, getAllSubscribtions, removeAllSubscribers, findOneSubscribtion, removeAllSubscriptions);
+module.exports = functionExporter(add, getAllSubscribtions, removeAllSubscribers, findOneSubscribtion, removeAllSubscriptions, removeSubscribtion);
 
 

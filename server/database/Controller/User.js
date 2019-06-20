@@ -33,9 +33,9 @@ const findByName = function (name) {
         findOne ({name: name}).then(resolve);
     });
 };
-const validPassword = function (name, password){
+const validPassword = function (userObjectId, password){
     return new Promise((resolve)=>{
-        findOne ({name: name}).then(user=>{
+        findOne ({_id: userObjectId}).then(user=>{
             resolve((user && user.validPassword(password))?user:false);
         });
     });
@@ -50,9 +50,10 @@ const create = function (name, password){
         });
     });
 };
-const setPassword = function (name, password) {
+const setPassword = function (userObjectId, password) {
     return new Promise((resolve, reject)=>{
-        findOne ({name: name}).then(user=>{
+        if (password.length<6) reject(new Error('Short password'));
+        findOne ({_id: userObjectId}).then(user=>{
             user.setPassword(password);
             user.save(function (err, user) {
                 if (err) reject(err);

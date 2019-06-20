@@ -1,7 +1,10 @@
 const   mongoose = require('mongoose'),
         uri = "mongodb+srv://danitinstagram:danitinstagram@dan-it-instagram-qznrg.mongodb.net/test?retryWrites=true&w=majority";
 
-mongoose.connect(uri, {useNewUrlParser: true});
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useFindAndModify: true
+});
 
 const connection = mongoose.connection;
 

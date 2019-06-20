@@ -32,9 +32,11 @@ const upload = function (ownerObjectId, photoData){
                 format: cloudResponse.format,
                 public_id: cloudResponse.public_id
             });
-            photo.save(function (err) {
+            photo.save(function (err, photo) {
                 if (err) reject(err);
-                photoCloud.getOne(photo).then(resolve, reject);
+                photoCloud.getOne(photo).then(photoBase64=>{
+                    resolve({_id: photo._id, base64: photoBase64});
+                }, reject);
             });
         }, reject);
     });
@@ -57,12 +59,12 @@ const removeOne = function (photoObjectID){
     });
 };
 
-const removeMany = function (usersObjectIDs) {
+const removeUsersAll = function (userObjectID) {
     return new Promise((resolve, reject)=>{
-        Photo.find({_id: {$in: usersObjectIDs}}).exec(function(err, usersPhoto){
+        Photo.find({owner: {$in: userObjectID}}).exec(function(err, usersPhoto){
             if (err) reject(err);
             photoCloud.removeMany(usersPhoto).then(()=>{
-                Photo.deleteMany({_id: {$in: usersObjectIDs}}).exec(function(err){
+                Photo.deleteMany({owner: {$in: userObjectID}}).exec(function(err){
                     if (err) reject(err);
                     resolve(true);
                 });
@@ -72,7 +74,7 @@ const removeMany = function (usersObjectIDs) {
 };
 
 
-module.exports = functionExporter(upload, get, removeOne, removeMany);
+module.exports = functionExporter(upload, get, removeOne, removeUsersAll);
 
 
 function getFromTo (query, from, to) {

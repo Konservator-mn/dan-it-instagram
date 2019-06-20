@@ -46,9 +46,14 @@ const get = function (photoObjectId, limit1, limit2) {
 
 const edit = function (commentObjectId, newText) {
     return new Promise((resolve, reject)=>{
-        Comment.updateOne({_id: commentObjectId, text: newText}).exec(function(err, newComment){
-            if (err) reject(err)
-            else resolve(newComment);
+        Comment.findOneAndUpdate({_id: commentObjectId}, {text: newText}).exec(function(err){
+            if (err) reject(err);
+            else {
+                Comment.findOne({_id: commentObjectId}).exec(function(err, newComment){
+                    if (err) reject(err);
+                    resolve(newComment);
+                });
+            };
         });
     });
 };
