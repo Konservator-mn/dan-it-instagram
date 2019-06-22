@@ -45,7 +45,7 @@ const upload = function (ownerObjectId, photoData){
 };
 
 const removeOne = function (photoObjectID){
-    return Promise.all(
+    return Promise.all([
         new Promise((resolve, reject)=>{
             Photo.findOne({_id:photoObjectID}).exec(function (err, photoInfo) {
                 if (err) reject(err);
@@ -62,7 +62,7 @@ const removeOne = function (photoObjectID){
         }),
         Comment.removeByPhoto(photoObjectID),
         Like.removeByPhoto(photoObjectID)
-    )
+    ]);
 };
 
 const removeUsersAll = function (userObjectID) {
@@ -70,7 +70,7 @@ const removeUsersAll = function (userObjectID) {
         Photo.find({owner: {$in: userObjectID}}).exec(function(err, usersPhoto){
             if (err) reject(err);
             let photosIdsList = usersPhoto.map(photo=>photo._id);
-            Promise.all(
+            Promise.all([
                 new Promise((resolve, reject)=>{
                     photoCloud.removeMany(usersPhoto).then(()=>{
                         Photo.deleteMany({owner: {$in: userObjectID}}).exec(function(err){
@@ -81,7 +81,7 @@ const removeUsersAll = function (userObjectID) {
                 }),
                 Comment.removeByManyPhotos(photosIdsList),
                 Like.removeByManyPhotos(photosIdsList)
-            ).then(resolve, reject);
+            ]).then(resolve, reject);
 
         });
     });

@@ -14,18 +14,18 @@ const findOneSubscribtion = function (subscriberObjectId, subscribeOnObjectId) {
 
 const add = function (subscriberObjectId, subscribeOnObjectId){
     return new Promise((resolve, reject)=>{
-        findOneSubscribtion(subscriberObjectId, subscribeOnObjectId)
-            .then(subscription=>{
-                if (subscription) {
-                    User.findById(subscribeOnObjectId).then(resolve, reject);
-                } else {
-                    let subscription = new Subscribers({subscriber: subscriberObjectId, subscribeTo: subscribeOnObjectId});
-                    subscription.save(function (err, subscription){
-                        if (err) reject(err);
-                        User.findById(subscription.subscribeTo).then(resolve, reject);
-                    })
-                }
-            }, reject);
+        Subscribers.findOne({subscriber: subscriberObjectId, subscribeTo: subscribeOnObjectId}).exec(function (err, subscription) {
+            if (err) reject(err);
+            if (subscription) {
+                resolve(subscription);
+            } else {
+                let subscription = new Subscribers({subscriber: subscriberObjectId, subscribeTo: subscribeOnObjectId});
+                subscription.save(function (err, subscription){
+                    if (err) reject(err);
+                    resolve(subscription);
+                })
+            }
+        });
     });
 };
 
