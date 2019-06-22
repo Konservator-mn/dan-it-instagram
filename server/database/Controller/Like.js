@@ -45,5 +45,14 @@ const removeByUser = function (usersObjectIds) {
     });
 };
 
+const removeByManyPhotos = function (photosObjectIds){
+    return new Promise((resolve, reject)=>{
+        Like.deleteMany({photo:{$in:photosObjectIds}}).exec(function (err) {
+            if (err) reject(err);
+            resolve(true);
+        });
+    });
+};
 
-module.exports = functionExporter(add, removeOne, removeByPhoto, removeByUser);
+
+module.exports = functionExporter(add, removeOne, removeByPhoto, removeByUser, removeByManyPhotos);
