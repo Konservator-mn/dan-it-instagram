@@ -2,7 +2,8 @@ const   User = require('../database')('User'),
         Subscribers = require('../database')('Subscribers'),
         Photo = require('../database')('Photo'),
         {readdir, readFile} = require('fs'),
-        Comment = require('../database')('Comment');
+        Comment = require('../database')('Comment'),
+        Like = require('../database')('Like');
 
 //User.findById("5cfbd03f2ffaf144a13e84adf").then(console.log);
 //User.findByName("iva_pet2").then(console.log);
@@ -38,4 +39,24 @@ readdir(path, function(err, files){
 //Comment.add("5cfbd6449e982e4dfb269965", "5d0a70764d537e18e2d70d09", "Ща ...)))").then(console.log);
 //Comment.add("5d0158c32d8e61d38018e57c", "5d0a70764d537e18e2d70d09", "Смешно").then(console.log);
 
-Comment.edit("5d0a738c407ddb1b5d0c7633", "Теперь норм коммент").then(console.log);
+//Comment.edit("5d0a738c407ddb1b5d0c7633", "Теперь норм коммент").then(console.log);
+//Comment.get("5d0a70754d537e18e2d70d07").then(console.log);
+//Comment.remove("5d0a72f6f2fe371ac828ac39").then(console.log);
+
+//Comment.removeByPhoto("5d0a70764d537e18e2d70d09").then(console.log);
+
+//Like.add("5cfbd03f2faf144a13e84adf", "5d0a70764d537e18e2d70d09").then(console.log);
+//Like.add("5d0158c32d8e61d38018e57c", "5d0a70764d537e18e2d70d09").then(console.log);
+
+//Like.removeOne("5cfbd03f2faf144a13e84adf", "5cfbd03f2faf144a13e84adf").then(console.log);
+//Like.removeByPhoto("5d0a70764d537e18e2d70d09").then(console.log);
+
+//Like.removeByUser("5cfbd03f2faf144a13e84adf").then(console.log);
+
+/*
+** 1.
+**
+**
+**
+ */
+

@@ -1,5 +1,7 @@
 const   photoCloud = require('../photoCloud'),
         Photo = require('../Schemas/Photo'),
+        Comment = require('../')('Comment'),
+        Like = require('../')('Like'),
         functionExporter = require('../../libs/exporter');
 
 const get = function (userObjectId, limit1, limit2) {
@@ -43,32 +45,44 @@ const upload = function (ownerObjectId, photoData){
 };
 
 const removeOne = function (photoObjectID){
-    return new Promise((resolve, reject)=>{
-        Photo.findOne({_id:photoObjectID}).exec(function (err, photoInfo) {
-            if (err) reject(err);
-            photoCloud.removeOne(photoInfo).then(result=>{
-                if (result){
-                    Photo.deleteOne({_id:photoObjectID}).exec(function (err) {
-                        if (err) reject(err);
-                        resolve(true);
-                    });
-                }
-            }, reject);
-        })
+    return Promise.all(
+        new Promise((resolve, reject)=>{
+            Photo.findOne({_id:photoObjectID}).exec(function (err, photoInfo) {
+                if (err) reject(err);
+                photoCloud.removeOne(photoInfo).then(result=>{
+                    if (result){
+                        Photo.deleteOne({_id:photoObjectID}).exec(function (err) {
+                            if (err) reject(err);
+                            resolve(true);
+                        });
+                    }
+                }, reject);
+            })
 
-    });
+        }),
+        Comment.removeByPhoto(photoObjectID),
+        Like.removeByPhoto(photoObjectID)
+    )
 };
 
 const removeUsersAll = function (userObjectID) {
     return new Promise((resolve, reject)=>{
         Photo.find({owner: {$in: userObjectID}}).exec(function(err, usersPhoto){
             if (err) reject(err);
-            photoCloud.removeMany(usersPhoto).then(()=>{
-                Photo.deleteMany({owner: {$in: userObjectID}}).exec(function(err){
-                    if (err) reject(err);
-                    resolve(true);
-                });
-            }, reject);
+            let photosIdsList = usersPhoto.map(photo=>photo._id);
+            Promise.all(
+                new Promise((resolve, reject)=>{
+                    photoCloud.removeMany(usersPhoto).then(()=>{
+                        Photo.deleteMany({owner: {$in: userObjectID}}).exec(function(err){
+                            if (err) reject(err);
+                            resolve(true);
+                        });
+                    }, reject);
+                }),
+                Comment.removeByManyPhotos(photosIdsList),
+                Like.removeByManyPhotos(photosIdsList)
+            ).then(resolve, reject);
+
         });
     });
 };

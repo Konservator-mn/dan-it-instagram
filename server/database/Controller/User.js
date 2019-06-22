@@ -1,5 +1,9 @@
 const   User = require('../Schemas/User'),
         Subscribers = require('../Schemas/Subscribers'),
+        Photo = require('../')('User'),
+        Like = require('../')('Like'),
+        Comment = require('../')('Comment'),
+        Subscribe = require('../')('Subscribers'),
         functionExporter = require('../../libs/exporter');
 
 /*  1. Существует ли пользователь с таким именем
@@ -71,4 +75,20 @@ const findManyByIds = function (ids){
     });
 };
 
-module.exports = functionExporter(findByName, validPassword, setPassword, create, findById, findManyByIds);
+const remove = function (userObjectID){
+    return Promise.all(
+        new Promise((resolve, reject)=>{
+            User.deleteOne({_id: userObjectID}).exec(function(err){
+                if (err) reject(err);
+                resolve(true);
+            });
+        }),
+        Photo.removeUsersAll(userObjectID),
+        Comment.removeByUser(userObjectID),
+        Like.removeByUser(userObjectID),
+        Subscribe.removeAllSubscriptions(userObjectID),
+        Subscribe.removeAllSubscribers(userObjectID)
+    );
+};
+
+module.exports = functionExporter(findByName, validPassword, setPassword, create, findById, findManyByIds, remove);
