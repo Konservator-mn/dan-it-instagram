@@ -34,18 +34,16 @@ class SubscriptionFeed extends Component {
          }
     }
   
-    // componentDidMount() {
-    //     // getSocketID()
-
-    //         // const socket = window.socket
-    //         // socket.emit('GetUsers',socket.id)
-    //         // socket.on('SendUsers', (result)=> { this.setState({users: result})
-    //         // console.log(this.state)
-        
-    //     })
-
-
-    // }
+    componentDidMount() {
+        // getSocketID()
+            const socket = window.socket
+            console.log(socket);
+            
+            socket.emit('GetUsers',socket.id)
+            socket.on('SendUsers', (result)=> { this.setState({users: result})
+           
+        })
+    }
 
     render() { 
         const SubscriptionFeedList = this.state.users
