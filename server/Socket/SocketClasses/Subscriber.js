@@ -1,7 +1,7 @@
 const User = require("./../../database/Schemas/User")
 const Photo = require("./../../database/Schemas/Photo")
 const Subscribers = require("./../../database/Schemas/Subscribers")
-const Post = require("./../../database/Schemas/Post")
+const Like = require("./../../database/Schemas/Like")
 const Comment = require("./../../database/Schemas/Comment")
 
 class ObserverSubscriberClass{
@@ -31,7 +31,7 @@ class ObserverSubscriberClass{
 ObserverSubscriberClass.prototype.User = User;
 ObserverSubscriberClass.prototype.Photo = Photo;
 ObserverSubscriberClass.prototype.Subscribers = Subscribers;
-ObserverSubscriberClass.prototype.Post = Post;
+ObserverSubscriberClass.prototype.Like = Like;
 ObserverSubscriberClass.prototype.Comment = Comment;
 
 module.exports = ObserverSubscriberClass;
