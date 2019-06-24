@@ -10,6 +10,8 @@ ObserverSubscriberClass.prototype.Observer=Observer;
 io.on('connection', function(socket){
 
     socket.on('SubscribeToUpdates', function(session){
+      console.log(session)
+      
        new ObserverSubscriberClass(session.id,session.ListenTo)
        })
    

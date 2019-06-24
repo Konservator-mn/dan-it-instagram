@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
 
 import PostsFeed from "./PostsFeed/PostsFeed";
+import SubscriptionFeed from './SubscriptionFeed/SubscriptionFeed'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +29,9 @@ export default function Feed(props) {
         </Paper>
       </Grid>
       <Grid item xs={4}>
-        <Paper className={classes.paper}>Subscription Feed Panel</Paper>
+        <Paper className={classes.paper}>Subscription Feed Panel
+        <SubscriptionFeed/>
+        </Paper>
         <Paper className={classes.paper}>Sugested subscription Feed Panel</Paper>
       </Grid>
     </Grid>
